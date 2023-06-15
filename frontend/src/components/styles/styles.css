@@ -1,0 +1,14 @@
+:root {
+    --uiFont: 'Lato', sans-serif;
+    --txtFont: 'Noto Sans', sans-serif;
+}
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.appTitle {
+    font-family: var(--uiFont);
+}
