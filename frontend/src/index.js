@@ -4,10 +4,27 @@ import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from 'react-router-dom'
+import Dashboard from './components/dashboard';
+
+const router = createBrowserRouter([
+  {
+    path:'/',
+    element: <App></App>
+  },
+  {
+    path:'/dashboard',
+    element:<Dashboard></Dashboard>
+  }
+])
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
