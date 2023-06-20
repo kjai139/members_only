@@ -21,4 +21,12 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    gap:5px;
+}
+
+.signUpForm {
+    display:flex;
+    flex-direction: column;
+    max-width: 800px;
+    gap:5px;
 }

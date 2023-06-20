@@ -1,7 +1,7 @@
 import React from "react";
 
 
-const SignUpForm = () => {
+const SignInForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
     }
@@ -37,4 +37,4 @@ const SignUpForm = () => {
     )
 }
 
-export default SignUpForm
+export default SignInForm
