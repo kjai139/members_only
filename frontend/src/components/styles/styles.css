@@ -1,19 +1,33 @@
 :root {
     --uiFont: 'Lato', sans-serif;
     --txtFont: 'Noto Sans', sans-serif;
+    --InputTxtSize: 14px;
 }
 
 
 * {
+    font-family: var(--uiFont);
     margin: 0;
     padding: 0;
+}
+
+#App {
+    padding: 1rem;
+}
+
+.signUpForm > input {
+    border: 2.5px solid black;
+    border-radius: 7px;
+    font-size: var(--InputTxtSize);
+    padding:7px;
+    
 }
 
 .appTitle {
     font-family: var(--uiFont);
 }
 
-#App {
+.homeDiv, .signUpForm {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -25,8 +39,23 @@
 }
 
 .signUpForm {
-    display:flex;
-    flex-direction: column;
-    max-width: 800px;
-    gap:5px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    padding: 2rem;
+    border-radius: 8px;
+    background-color: wheat;
+}
+
+.submitBtn {
+    padding: 5px;
+    border: 0px;
+    margin-top: 1rem;
+    color: black;
+    background-color: inherit;
+    text-decoration: underline;
+    font-size: 18px;
+}
+
+.submitBtn:hover {
+    cursor: pointer;
+    color: blue;
 }
