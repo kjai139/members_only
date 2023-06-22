@@ -15,7 +15,7 @@ const SignInForm = () => {
                 display:'flex',
                 flexDirection:'column'
             }}>
-            <label htmlFor="userName">UserName:</label>
+            <label htmlFor="userName">Username:</label>
             <input type="text" name="userName" id="userName"></input>
             <label htmlFor="userPassword">Password:</label>
             <input type='text' name='userPassword' id="userPassword"></input>
