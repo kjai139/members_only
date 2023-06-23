@@ -4,6 +4,9 @@ import { useState } from 'react'
 import Layout from './layout'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
+import Overlay from './overlay'
+import { PacmanLoader } from 'react-spinners'
+
 
 
 const SignUpForm = () => {
@@ -12,7 +15,7 @@ const SignUpForm = () => {
 
     
     const [isFormProcessing, setIsFormProcessing] = useState(false)
-    const [isFormSubmitted, setIsFormSubmitted] = useState(false)
+    const [isResultOut, setIsResultOut] = useState(false)
 
     const instance = axios.create({
         baseURL: 'http://localhost:4000'
@@ -20,6 +23,7 @@ const SignUpForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setIsFormProcessing(true)
 
         const username = e.target.username.value
         const userPassword = e.target.userPassword.value
@@ -28,8 +32,11 @@ const SignUpForm = () => {
                 username: username,
                 userPassword: userPassword
             })
+            setIsFormProcessing(false)
+            
             console.log(response.data)
         } catch(err) {
+            setIsFormProcessing(false)
             console.log(err)
         }
         
@@ -41,6 +48,10 @@ const SignUpForm = () => {
 
     return (
         <Layout>
+            {isFormProcessing ? <Overlay loading={true}>
+            
+            </Overlay> : null}
+        
         <Link to='/'>Back to Login</Link>    
         <form className='signUpForm' onSubmit={handleSubmit}>
             <h1>Create Account</h1>

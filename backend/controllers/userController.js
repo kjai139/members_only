@@ -1,7 +1,7 @@
 const User = require('../models/userModel')
 const { body, validationResult } = require('express-validator')
 const debug = require('debug')('members_only_app:userController')
-
+const bcrypt = require('bcrypt')
 
 
 exports.create_user_post = [
@@ -26,14 +26,19 @@ exports.create_user_post = [
             debug('no errors validating form, proceeding')
             try {
                 const {username, userPassword } = req.body
+                const salt = await bcrypt.genSalt(10)
+                const hashedPw = await bcrypt.hash(userPassword, salt)
         
-                const newUser = new User({
-                    name: username,
-                    password: userPassword
-                })
+                // const newUser = new User({
+                //     name: username,
+                //     password: hashedPw
+                // })
+
+                // await newUser.save()
+                debug('user successfully registered', hashedPw)
                 
                 res.json({
-                    message:`received username: ${username} | password: ${userPassword}`
+                    success: true
                 })
             } catch (error) {
                 console.error(error)
