@@ -6,7 +6,8 @@ import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import Overlay from './overlay'
 import { PacmanLoader } from 'react-spinners'
-
+import ResultModal from './resultModal'
+import instance from '../modules/axiosInstance'
 
 
 const SignUpForm = () => {
@@ -16,10 +17,11 @@ const SignUpForm = () => {
     
     const [isFormProcessing, setIsFormProcessing] = useState(false)
     const [isResultOut, setIsResultOut] = useState(false)
+    const [formResult, setFormResult] = useState()
 
-    const instance = axios.create({
-        baseURL: 'http://localhost:4000'
-    })
+    
+
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -33,6 +35,8 @@ const SignUpForm = () => {
                 userPassword: userPassword
             })
             setIsFormProcessing(false)
+            setFormResult(response.data.message)
+            setIsResultOut(true)
             
             console.log(response.data)
         } catch(err) {
@@ -42,15 +46,15 @@ const SignUpForm = () => {
         
 
 
-        console.log(username, userPassword)
+        
 
     }
 
     return (
         <Layout>
             {isFormProcessing ? <Overlay loading={true}>
-            
             </Overlay> : null}
+            {isResultOut? <ResultModal result={formResult} closeModal={() => navigate('/')}></ResultModal> : null}
         
         <Link to='/'>Back to Login</Link>    
         <form className='signUpForm' onSubmit={handleSubmit}>

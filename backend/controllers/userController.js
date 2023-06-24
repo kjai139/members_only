@@ -29,16 +29,17 @@ exports.create_user_post = [
                 const salt = await bcrypt.genSalt(10)
                 const hashedPw = await bcrypt.hash(userPassword, salt)
         
-                // const newUser = new User({
-                //     name: username,
-                //     password: hashedPw
-                // })
+                const newUser = new User({
+                    name: username,
+                    password: hashedPw
+                })
 
-                // await newUser.save()
+                await newUser.save()
                 debug('user successfully registered', hashedPw)
                 
                 res.json({
-                    success: true
+                    success: true,
+                    message: 'User successfully registered'
                 })
             } catch (error) {
                 console.error(error)
