@@ -4,6 +4,13 @@ import React from "react";
 const SignInForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        const username = e.target.value.username
+        const userPassword = e.target.value.userPassword
+
+        
+
+
     }
     return (
         <form onSubmit={handleSubmit} style={{
