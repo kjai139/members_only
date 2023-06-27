@@ -1,14 +1,25 @@
 import React from "react";
-
+import instance from "../modules/axiosInstance";
 
 const SignInForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const username = e.target.value.username
-        const userPassword = e.target.value.userPassword
+        const username = e.target.userName.value
+        const userPassword = e.target.userPassword.value
 
-        
+        console.log(username, userPassword)
+        try {
+            const response = await instance.post('/login', {
+                username: username,
+                userPassword: userPassword
+            })
+            console.log(response.data.message)
+            
+        } catch(err) {
+            console.log(err)
+
+        }
 
 
     }

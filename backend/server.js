@@ -2,9 +2,10 @@ const express = require('express')
 const cors = require('cors')
 
 const userRouter = require('./routes/users')
+const loginRouter = require('./routes/login')
 const app = express()
 
-const passport = require('./modules/passport')
+const passport = require('passport')
 const session = require('express-session')
 
 require('dotenv').config()
@@ -25,19 +26,22 @@ app.use(cors())
 app.use(express.json())
 
 app.use(session({
-    secrets: 'cookies',
+    secret: 'cookies',
     resave: false,
     saveUninitialized: true
 }))
 
 app.use(passport.initialize())
 app.use(passport.session())
+app.use(express.urlencoded({extended: false}))
 
 //passport and need set up session
 
 
 
 app.use('/users', userRouter)
+app.use('/login', loginRouter)
+
 
 
 

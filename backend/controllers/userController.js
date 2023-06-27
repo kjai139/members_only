@@ -2,6 +2,7 @@ const User = require('../models/userModel')
 const { body, validationResult } = require('express-validator')
 const debug = require('debug')('members_only_app:userController')
 const bcrypt = require('bcrypt')
+const passport = require('../modules/passport')
 
 
 exports.create_user_post = [
@@ -50,3 +51,4 @@ exports.create_user_post = [
         
     }
 ]
+
