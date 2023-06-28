@@ -18,6 +18,8 @@ const SignUpForm = () => {
     const [isFormProcessing, setIsFormProcessing] = useState(false)
     const [isResultOut, setIsResultOut] = useState(false)
     const [formResult, setFormResult] = useState()
+    const [errorMsg, setErrorMsg] = useState()
+    const [isThereError, setIsThereError] = useState(false)
 
     
 
@@ -42,6 +44,9 @@ const SignUpForm = () => {
         } catch(err) {
             setIsFormProcessing(false)
             console.log(err)
+            setErrorMsg(err.response.data.errorMessage)
+            setIsThereError(true)
+            e.target.reset()
         }
         
 
@@ -55,6 +60,7 @@ const SignUpForm = () => {
             {isFormProcessing ? <Overlay loading={true}>
             </Overlay> : null}
             {isResultOut? <ResultModal result={formResult} closeModal={() => navigate('/')}></ResultModal> : null}
+            {isThereError ? <ResultModal result={errorMsg} closeModal={() => setIsThereError(false)}></ResultModal>: null}
         
         <Link to='/'>Back to Login</Link>    
         <form className='signUpForm' onSubmit={handleSubmit}>

@@ -2,7 +2,7 @@ const User = require('../models/userModel')
 const { body, validationResult } = require('express-validator')
 const debug = require('debug')('members_only_app:userController')
 const bcrypt = require('bcrypt')
-const passport = require('../modules/passport')
+
 
 
 exports.create_user_post = [
@@ -44,7 +44,14 @@ exports.create_user_post = [
                 })
             } catch (error) {
                 console.error(error)
-                res.status(500).json({message: 'Error creating user'})
+                if (error.code === 11000) {
+                    res.status(400).json({
+                        errorMessage: 'Username already exists'
+                    })
+                } else {
+                    res.status(500).json({message: 'Error creating user'})
+                }
+                
             }
             
         }

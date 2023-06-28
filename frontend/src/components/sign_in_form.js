@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import instance from "../modules/axiosInstance";
+import Layout from "./layout";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const SignInForm = () => {
+
+    const navigate = useNavigate()
+
+    const [isFormProcessing, setIsFormProcessing] = useState(false)
+
+    // useEffect( () => {
+
+    // }) set up to check if user is authenticated here already
+
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -16,6 +29,10 @@ const SignInForm = () => {
             })
             console.log(response.data.message)
             
+            if (response.data.isAuthenticated) {
+                navigate('/dashboard')
+            }
+            
         } catch(err) {
             console.log(err)
 
@@ -24,6 +41,9 @@ const SignInForm = () => {
 
     }
     return (
+        <Layout>
+        <div className='homeDiv'>
+        <h1 className='appTitle'>Welcome to Membership App</h1>
         <form onSubmit={handleSubmit} style={{
             display:'flex',
             width: '100%',
@@ -52,6 +72,12 @@ const SignInForm = () => {
             </div>
 
         </form>
+        <Link to='/signup' style={{
+            textDecoration: 'none',
+            color: '#38bdf8'
+        }}>New user</Link>
+        </div>
+        </Layout>
     )
 }
 

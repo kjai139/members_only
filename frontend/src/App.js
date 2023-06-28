@@ -12,17 +12,9 @@ function App() {
     navigate('/dashboard')
   }
   return (
-    <Layout>
-      <div className='homeDiv'>
-      <h1 className='appTitle'>Welcome to Membership App</h1>
+    
       <SignInForm></SignInForm>
-      <Link to='/signup' style={{
-        textDecoration: 'none',
-        color: '#38bdf8'
-      }}>New user</Link>
-      </div>
-     
-    </Layout>
+      
   );
 }
 

@@ -31,10 +31,26 @@ passport.use(new LocalStrategy( {
 
 }))
 
+passport.serializeUser( function(user, done){
+    debug('user from serialize', user)
+    done(null, 'user.id')
+})
+
+passport.deserializeUser( async function(id, done){
+    try {
+        const user = await User.findById(id)
+        done(null, user)
+    } catch(err) {
+        done(err)
+    }
+})
+
+//passport authenticate returns done(err, user, info)
 router.post('/', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
         debug(req.body)
-        debug(info)
+        debug('info', info)
+        debug('user', user)
         
         if (err) {
             return next(err)
@@ -42,16 +58,35 @@ router.post('/', (req, res, next) => {
 
         if (!user) {
             return res.json({
-                message: info.message
+                message: info.message,
+                
             })
         }
 
         res.json({
-            message: 'authentication successful', user
+            message: 'authentication successful', 
+            isAuthenticated: true,
+            user: user
         })
     }) 
     (req, res, next)
     // this is a way to immediately invoke function expression, this is IFFE format of giving the callback function (err, user, info)(req, res, next) passport authenticate expects a function not the result of the function call
+
+    //if you don't pass the req res next to authenticate the localstrategy won't have the things to work with in the callback
+})
+
+router.get('/auth', (req, res) => {
+    debug('user in sess', req.user)
+    if (req.isAuthenticated()) {
+        res.json({
+            isAuthenticated: true,
+            user: req.user
+        })
+    } else {
+        res.json({
+            isAuthenticated: false
+        })
+    }
 })
 
 module.exports = router
