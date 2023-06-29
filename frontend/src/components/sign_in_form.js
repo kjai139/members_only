@@ -9,10 +9,31 @@ const SignInForm = () => {
     const navigate = useNavigate()
 
     const [isFormProcessing, setIsFormProcessing] = useState(false)
+    const [isAuth, setisAuth] = useState(false)
 
-    // useEffect( () => {
+    
 
-    // }) set up to check if user is authenticated here already
+    useEffect( () => {
+        
+    }, []) 
+
+    const isUserAuth = async () => {
+        try {
+            const response = await instance.post('/login/auth', {
+                withCredentials: true
+            })
+            if (response.data.isAuthenticated) {
+                console.log('user is authenticated, name:', response.data.user.name)
+                
+                navigate('/dashboard')
+            } else {
+                console.log('user is not authenticated')
+                
+            }
+        }catch (err) {
+            console.log(err)
+        }
+    }
 
 
     const handleSubmit = async (e) => {
@@ -26,11 +47,14 @@ const SignInForm = () => {
             const response = await instance.post('/login', {
                 username: username,
                 userPassword: userPassword
+            }, {
+                withCredentials: true
             })
-            console.log(response.data.message)
+            console.log(response.data.cookie, 'cookie upon sign in')
             
             if (response.data.isAuthenticated) {
                 navigate('/dashboard')
+                
             }
             
         } catch(err) {
@@ -42,6 +66,7 @@ const SignInForm = () => {
     }
     return (
         <Layout>
+            <button onClick={isUserAuth}>CHECK AUTH</button>
         <div className='homeDiv'>
         <h1 className='appTitle'>Welcome to Membership App</h1>
         <form onSubmit={handleSubmit} style={{

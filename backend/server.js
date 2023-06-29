@@ -7,6 +7,9 @@ const app = express()
 
 const passport = require('passport')
 const session = require('express-session')
+const cookieParser = require('cookie-parser')
+
+const debug = require('debug')('members_only_app:server')
 
 require('dotenv').config()
 const mongoose = require('mongoose')
@@ -22,14 +25,21 @@ const main = async () => {
 }
 
 main()
-app.use(cors())
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}))
 app.use(express.json())
 
+app.use(cookieParser())
 app.use(session({
-    secret: 'cookies',
+    secret: 'keyboard-dog',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    name:'the session cookie'
 }))
+
+
 
 app.use(passport.initialize())
 app.use(passport.session())

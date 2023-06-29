@@ -32,18 +32,20 @@ passport.use(new LocalStrategy( {
 }))
 
 passport.serializeUser( function(user, done){
-    debug('user from serialize', user)
-    done(null, 'user.id')
+    debug('user from serialize', user, 'user id', user.id)
+    done(null, user.id)
 })
 
-passport.deserializeUser( async function(id, done){
+passport.deserializeUser( async function(id, done) {
+    debug('deserialize called')
     try {
         const user = await User.findById(id)
         done(null, user)
-    } catch(err) {
+    } catch (err) {
         done(err)
     }
 })
+
 
 //passport authenticate returns done(err, user, info)
 router.post('/', (req, res, next) => {
@@ -51,6 +53,7 @@ router.post('/', (req, res, next) => {
         debug(req.body)
         debug('info', info)
         debug('user', user)
+        debug('cookie', req.headers.cookie)
         
         if (err) {
             return next(err)
@@ -63,20 +66,34 @@ router.post('/', (req, res, next) => {
             })
         }
 
-        res.json({
-            message: 'authentication successful', 
-            isAuthenticated: true,
-            user: user
+        req.logIn(user, (err) => {
+            if (err){
+                return next(err)
+            }
+            res.json({
+                message: 'authentication successful', 
+                isAuthenticated: true,
+                cookie: req.headers.cookie
+                
+            })
+            
+            
+            
         })
+        
+        
+
+        
     }) 
-    (req, res, next)
+    (req, res, next);
     // this is a way to immediately invoke function expression, this is IFFE format of giving the callback function (err, user, info)(req, res, next) passport authenticate expects a function not the result of the function call
 
     //if you don't pass the req res next to authenticate the localstrategy won't have the things to work with in the callback
 })
 
-router.get('/auth', (req, res) => {
-    debug('user in sess', req.user)
+router.post('/auth', (req, res) => {
+    // debug(req.headers.cookie)
+    // debug(req.session, 'the session')
     if (req.isAuthenticated()) {
         res.json({
             isAuthenticated: true,
@@ -84,7 +101,30 @@ router.get('/auth', (req, res) => {
         })
     } else {
         res.json({
-            isAuthenticated: false
+            isAuthenticated: false,
+            session: req.session,
+            cookie: req.headers.cookie,
+            user: req.user
+
+        })
+    }
+})
+
+router.get('/auth', (req, res) => {
+    // debug(req.headers.cookie)
+    // debug(req.session, 'the session')
+    if (req.isAuthenticated()) {
+        res.json({
+            isAuthenticated: true,
+            user: req.user
+        })
+    } else {
+        res.json({
+            isAuthenticated: false,
+            session: req.session,
+            cookie: req.headers.cookie,
+            user: req.user
+
         })
     }
 })
