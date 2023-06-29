@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import instance from "../modules/axiosInstance";
 import { useNavigate } from "react-router-dom";
 import ResultModal from "./resultModal";
+import Layout from "./layout";
+import PostMsg from "./post_msg_form";
 
 const Dashboard = () => {
 
@@ -43,11 +45,22 @@ const Dashboard = () => {
         }
     }
     return (
+        <Layout>
+        <div className="dashboard-cont">
         <div>
-            <h1>Welcome {user ? user.name : null}</h1>
+            <h1>Welcome {user ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : null}</h1>
             <button onClick={logOut}>Log out</button>
             {isResultOut? <ResultModal result={formResult} closeModal={() => navigate('/')}></ResultModal> : null}
         </div>
+        <div>
+            <h2>Club messages</h2>
+        </div>
+        <div className="messageBoard">
+
+        </div>
+        <PostMsg></PostMsg>
+        </div>
+        </Layout>
     )
 }
 

@@ -82,3 +82,24 @@
     cursor: pointer;
     color: blue;
 }
+
+.dashboard-cont {
+    max-width: 1000px;
+    margin: auto;
+}
+
+.postMsgForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.postMsgTxtarea {
+    resize: none;
+    min-height: 5rem;
+}
+
+.buttonsBar {
+    display: flex;
+    gap: 5px;
+}

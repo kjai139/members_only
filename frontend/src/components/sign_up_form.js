@@ -29,7 +29,7 @@ const SignUpForm = () => {
         e.preventDefault()
         setIsFormProcessing(true)
 
-        const username = e.target.username.value
+        const username = e.target.username.value.toLowerCase()
         const userPassword = e.target.userPassword.value
         try {
             const response = await instance.post('/users/create', {

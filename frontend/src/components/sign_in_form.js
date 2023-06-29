@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import instance from "../modules/axiosInstance";
 import Layout from "./layout";
 import { Link, useNavigate } from "react-router-dom";
+import ResultModal from "./resultModal";
 
 
 const SignInForm = () => {
@@ -10,6 +11,7 @@ const SignInForm = () => {
 
     const [isFormProcessing, setIsFormProcessing] = useState(false)
     const [isAuth, setisAuth] = useState(false)
+    const [errorMsg, setErrorMsg] = useState()
 
     
 
@@ -39,7 +41,7 @@ const SignInForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const username = e.target.userName.value
+        const username = e.target.userName.value.toLowerCase()
         const userPassword = e.target.userPassword.value
 
         console.log(username, userPassword)
@@ -55,6 +57,9 @@ const SignInForm = () => {
             if (response.data.isAuthenticated) {
                 navigate('/dashboard')
                 
+            } else {
+                e.target.reset()
+                setErrorMsg(response.data.message)
             }
             
         } catch(err) {
@@ -67,6 +72,7 @@ const SignInForm = () => {
     return (
         <Layout>
             <button onClick={isUserAuth}>CHECK AUTH</button>
+        {errorMsg ? <ResultModal result={errorMsg} closeModal={() => setErrorMsg()}></ResultModal> : null}
         <div className='homeDiv'>
         <h1 className='appTitle'>Welcome to Membership App</h1>
         <form onSubmit={handleSubmit} style={{
@@ -79,9 +85,9 @@ const SignInForm = () => {
                 flexDirection:'column'
             }}>
             <label htmlFor="userName">Username:</label>
-            <input type="text" name="userName" id="userName"></input>
+            <input type="text" name="userName" id="userName" autoComplete="off"></input>
             <label htmlFor="userPassword">Password:</label>
-            <input type='text' name='userPassword' id="userPassword"></input>
+            <input type='password' name='userPassword' id="userPassword"></input>
             </div>
             <div style={{
                 justifyContent: 'flex-end',

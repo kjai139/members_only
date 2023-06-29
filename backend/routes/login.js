@@ -15,7 +15,7 @@ passport.use(new LocalStrategy( {
         debug('username and password', username, password)
         const user = await User.findOne({ name: username });
         if (!user) {
-          return done(null, false, { message: "Incorrect username" });
+          return done(null, false, { message: "Username does not exist" });
         };
         const passwordsMatch = await bcrypt.compare(password, user.password)
         
