@@ -10,9 +10,12 @@ const PostMsg = () => {
         const content = e.target.content.value
 
         try {
-            const response = await instance.post('/message/post', {
+            const response = await instance.post('/message/create', {
                 content: content
+            }, {
+                withCredentials: true
             })
+            console.log(response.data.message)
         } catch(err) {
             console.log(err)
         }
@@ -20,7 +23,7 @@ const PostMsg = () => {
     }
 
     return (
-        <form className="postMsgForm">
+        <form className="postMsgForm" onSubmit={onSubmit}>
             
             <textarea className="postMsgTxtarea" name="content"></textarea>
             <div className="buttonsBar">

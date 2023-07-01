@@ -3,6 +3,8 @@ const cors = require('cors')
 
 const userRouter = require('./routes/users')
 const loginRouter = require('./routes/login')
+const mesasgeRouter = require('./routes/message')
+
 const app = express()
 
 const passport = require('passport')
@@ -51,6 +53,7 @@ app.use(express.urlencoded({extended: false}))
 
 app.use('/users', userRouter)
 app.use('/login', loginRouter)
+app.use('/message', mesasgeRouter)
 
 
 
