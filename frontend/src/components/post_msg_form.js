@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import instance from "../modules/axiosInstance";
+import Overlay from "./overlay";
 
-const PostMsg = () => {
+const PostMsg = ({refresher}) => {
+
+    const [isLoading, setIsLoading] = useState(false)
 
 
     const onSubmit = async (e) => {
         e.preventDefault()
+        setIsLoading(true)
 
         const content = e.target.content.value
 
@@ -15,14 +19,20 @@ const PostMsg = () => {
             }, {
                 withCredentials: true
             })
+            setIsLoading(false)
+            e.target.reset()
+            refresher(true)
             console.log(response.data.message)
         } catch(err) {
             console.log(err)
+            setIsLoading(false)
         }
 
     }
 
     return (
+        <div>
+            {isLoading ? <Overlay loading={true}></Overlay> : null}
         <form className="postMsgForm" onSubmit={onSubmit}>
             
             <textarea className="postMsgTxtarea" name="content"></textarea>
@@ -31,6 +41,7 @@ const PostMsg = () => {
             <button>Cancel</button>
             </div>
         </form>
+        </div>
     )
 }
 

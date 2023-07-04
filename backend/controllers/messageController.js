@@ -40,3 +40,27 @@ exports.create_message_post = [
         }
     }
 ]
+
+exports.messages_get = async (req, res, next) => {
+    try {
+        const curPage = req.query.page
+        const count = await Message.countDocuments()
+        debug('count', count)
+        const totalPages = Math.ceil(count / 10)
+        debug(totalPages)
+        const skip = (curPage - 1 ) * 10
+        debug(skip)
+        const posts = await Message.find().sort({ 
+            createdAt: -1
+        }).skip(skip).limit(10).populate('poster', '-password')
+        res.json({
+            curpage: `skip: ${skip}, curPage: ${curPage}, totalPages: ${totalPages}`,
+            posts: posts
+        })
+
+    }catch(err) {
+        res.status(500).json({
+            message: 'error getting posts'
+        })
+    }
+}

@@ -2,6 +2,7 @@
     --uiFont: 'Lato', sans-serif;
     --txtFont: 'Noto Sans', sans-serif;
     --InputTxtSize: 14px;
+    --borderColor: #e7e5e4;
 }
 
 
@@ -86,6 +87,9 @@
 .dashboard-cont {
     max-width: 1000px;
     margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .postMsgForm {
@@ -97,9 +101,35 @@
 .postMsgTxtarea {
     resize: none;
     min-height: 5rem;
+    padding: 5px;
+    border: 2px solid var(--borderColor);
 }
 
 .buttonsBar {
     display: flex;
     gap: 5px;
+}
+
+.post-container {
+    display: flex;
+    flex-direction: column;
+    border: 2px solid var(--borderColor);
+}
+
+.post-container > :nth-child(1) {
+    padding: 5px;
+}
+
+.postDate {
+    background-color: #4ade80;
+}
+
+.post-outer-cont {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.post-user-cont {
+    border-right: 2px solid var(--borderColor);
 }
