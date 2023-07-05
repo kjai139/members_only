@@ -9,5 +9,6 @@ router.post('/create', messageController.create_message_post)
 
 router.get('/get', messageController.messages_get)
 
+router.delete('/delete/:id', messageController.messages_delete_post)
 
 module.exports = router

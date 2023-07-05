@@ -3,6 +3,8 @@
     --txtFont: 'Noto Sans', sans-serif;
     --InputTxtSize: 14px;
     --borderColor: #e7e5e4;
+    --PostBgColor: #1e3a8a;
+    --userBg: #f5f5f5;
 }
 
 
@@ -121,7 +123,10 @@
 }
 
 .postDate {
-    background-color: #4ade80;
+    background-color: var(--PostBgColor);
+    color: white;
+    display: flex;
+    justify-content: space-between;
 }
 
 .post-outer-cont {
@@ -132,4 +137,10 @@
 
 .post-user-cont {
     border-right: 2px solid var(--borderColor);
+    color:var(--PostBgColor);
+    background-color: var(--userBg);
+}
+
+.delete-btn {
+    padding: 5px;
 }

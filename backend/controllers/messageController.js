@@ -54,13 +54,30 @@ exports.messages_get = async (req, res, next) => {
             createdAt: -1
         }).skip(skip).limit(10).populate('poster', '-password')
         res.json({
-            curpage: `skip: ${skip}, curPage: ${curPage}, totalPages: ${totalPages}`,
+            curpage: curPage,
+            totalPages: totalPages,
             posts: posts
         })
 
     }catch(err) {
         res.status(500).json({
             message: 'error getting posts'
+        })
+    }
+}
+
+exports.messages_delete_post = async (req, res, next) => {
+    try {
+        const id = req.params.id
+
+        const result = await Message.findByIdAndDelete(`${id}`)
+
+        res.json({
+            message: `Document #${id} deleted`
+        })
+    }catch(err) {
+        res.json({
+            message: `error: ${err}`
         })
     }
 }
