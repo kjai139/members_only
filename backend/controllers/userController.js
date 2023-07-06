@@ -59,4 +59,54 @@ exports.create_user_post = [
     }
 ]
 
+exports.secret_auth = [
+    body('answer', 'answer must not be empty').trim().isLength({min: 1}).escape(),
+
+    async (req, res) => {
+
+        const errors = validationResult(req)
+
+        if (!errors.isEmpty()){
+            debug('there are errors in secret answer')
+            return res.status(400).json({
+                errors: errors.array()
+            })
+        } else {
+            try {
+                const userId = req.user.id
+                const secretAnswer = req.body.answer
+
+                const response = await User.updateOne(
+                    {
+                        _id: userId, 
+                        membership_password: secretAnswer
+                    },
+                    {
+                        $set: {membership_status: 'member'}
+                    }
+                )
+                debug('mongo response on secret', response)
+                if (response.modifiedCount === 1) {
+                    res.json({
+                        success: true,
+                        message: "Congrats, you're now in the club!"
+                    })
+                } else {
+                    res.json({
+                        success: false,
+                        message: `The answer ${secretAnswer} is incorrect`
+                    })
+                }
+
+            
+            }catch (err) {
+                res.status(500).json({
+                    message: `error checking secret, ${err}`
+                })
+            }
+        }
+        
+    }
+]
+
 

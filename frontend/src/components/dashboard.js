@@ -121,22 +121,21 @@ const Dashboard = () => {
             {deleteResult && <ResultModal result={deleteResult} closeModal={() => setDeleteResult('')}></ResultModal>}
         <div className="dashboard-cont">
         <div>
-            <h1>Welcome {user ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : null}</h1>
+            <h1>Welcome, {user ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : null}</h1>
             <button onClick={logOut}>Log out</button>
             {isResultOut? <ResultModal result={formResult} closeModal={() => navigate('/')}></ResultModal> : null}
         </div>
-        {isUserMember ? null : 
-        <div>
-        <button onClick={() => setIsSecretOpen(true)}>I want to join the club</button>
-        </div>}
-        {isSecretOpen && <SecretModal closeModal={() => setIsSecretOpen(false)}></SecretModal>}
+        
+        {isSecretOpen && <SecretModal closeModal={() => setIsSecretOpen(false)} setSuccess={()=> setIsUserMember(true)}></SecretModal>}
         <div>
             <h2>Secret Club Messages</h2>
             
             
-            <button onClick={checkMessages}>get posts button</button>
+            {/* <button onClick={checkMessages}>get posts button</button> */}
             <div className="post-outer-cont">
             {messagePosts ? messagePosts.map((node) => {
+
+                const capName = node.poster.name.charAt(0).toUpperCase() + node.poster.name.slice(1)
                 return (
                     <div className="post-container" key={node._id}>
                         <span className="postDate">{format(parseISO(node.createdAt), "EEEE, MMMM d, yyyy 'at' h:mm b")}
@@ -152,7 +151,7 @@ const Dashboard = () => {
                             <span className="post-user-cont" style={{
                                 
                                 padding:'5px'
-                            }}> {node.poster.name}</span>
+                            }}> {isUserMember? capName : 'Anon'}</span>
                             <span className="post-content-cont" style={{
                                 flexGrow: '1',
                                 padding:'5px'
@@ -167,7 +166,11 @@ const Dashboard = () => {
         <div className="messageBoard">
 
         </div>
-        <PostMsg refresher={handleUpdate}></PostMsg>
+        {isUserMember ? <PostMsg refresher={handleUpdate}></PostMsg> : <div><h2>Only members can see names and post in the secret club forum</h2>
+        <button onClick={() => setIsSecretOpen(true)}>I want to join the club</button></div>
+        }
+
+        
         </div>
         </Layout>
     )

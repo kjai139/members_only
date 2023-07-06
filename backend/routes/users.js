@@ -17,6 +17,8 @@ router.post('/logout', (req, res, next) => {
     
 })
 
+router.post('/membership-auth', userController.secret_auth)
+
 
 
 module.exports = router
