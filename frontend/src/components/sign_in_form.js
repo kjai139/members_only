@@ -74,7 +74,7 @@ const SignInForm = () => {
             <button onClick={isUserAuth}>CHECK AUTH</button>
         {errorMsg ? <ResultModal result={errorMsg} closeModal={() => setErrorMsg()}></ResultModal> : null}
         <div className='homeDiv'>
-        <h1 className='appTitle'>Welcome to Membership App</h1>
+        <h1 className='appTitle'>Welcome to the Private Membership Club</h1>
         <form onSubmit={handleSubmit} style={{
             display:'flex',
             width: '100%',

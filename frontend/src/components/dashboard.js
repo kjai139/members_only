@@ -6,6 +6,7 @@ import Layout from "./layout";
 import PostMsg from "./post_msg_form";
 import {format, parseISO} from 'date-fns'
 import Overlay from "./overlay";
+import SecretModal from "./secretModal";
 
 const Dashboard = () => {
 
@@ -22,6 +23,8 @@ const Dashboard = () => {
     const [needRefresh, setNeedRefresh] = useState(false)
 
     const [isDeleting, setIsDeleting] = useState(false)
+    
+    const [isSecretOpen, setIsSecretOpen] = useState(false)
     
     const [deleteResult, setDeleteResult] = useState(false)
 
@@ -44,7 +47,9 @@ const Dashboard = () => {
             })
             if (response.data.isAuthenticated) {
                 setUser(response.data.user)
-                console.log(response.data.user)
+                // setIsUserFilled(true)
+                
+                console.log('user', response.data.user)
                 if (response.data.user.membership_status === 'member') {
                     console.log('user is member')
                     setIsUserMember(true)
@@ -122,8 +127,9 @@ const Dashboard = () => {
         </div>
         {isUserMember ? null : 
         <div>
-        <button>I know the password to join the club</button>
+        <button onClick={() => setIsSecretOpen(true)}>I want to join the club</button>
         </div>}
+        {isSecretOpen && <SecretModal closeModal={() => setIsSecretOpen(false)}></SecretModal>}
         <div>
             <h2>Secret Club Messages</h2>
             
@@ -134,7 +140,8 @@ const Dashboard = () => {
                 return (
                     <div className="post-container" key={node._id}>
                         <span className="postDate">{format(parseISO(node.createdAt), "EEEE, MMMM d, yyyy 'at' h:mm b")}
-                        {user && user._id === node.poster._id ? <button className="delete-btn" onClick={() => deleteMsg(node._id)}>Delete message</button> : null}
+                        
+                        { user && user._id === node.poster._id ? <button className="delete-btn" onClick={() => deleteMsg(node._id)}>Delete message</button> : null}
                         
                         </span>
                         <div style={{

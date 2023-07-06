@@ -144,3 +144,16 @@
 .delete-btn {
     padding: 5px;
 }
+
+.secret-form {
+    padding: 1rem;
+    background-color: white;
+}
+
+.modal-btn {
+    padding: 5px;
+}
+
+button {
+    padding: 3px;
+}
