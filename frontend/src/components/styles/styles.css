@@ -4,7 +4,11 @@
     --InputTxtSize: 14px;
     --borderColor: #e7e5e4;
     --PostBgColor: #1e3a8a;
+
     --userBg: #f5f5f5;
+    --btnsBg: rgb(56, 189, 248);
+
+    --popUpColor: #fafafa;
 }
 
 
@@ -12,6 +16,30 @@
     font-family: var(--uiFont);
     margin: 0;
     padding: 0;
+}
+
+h1,h2,h3,h4,h5, a, label {
+    font-family: var(--uiFont);
+}
+
+button {
+    background-color: var(--btnsBg);
+    border: 0;
+    border-radius: 8px;
+    padding: 5px 10px;
+    font-family: var(--uiFont);
+    color: white;
+}
+
+span, p {
+    font-family: var(--txtFont);
+}
+
+button:hover {
+    
+    cursor: pointer;
+    filter: brightness(85%);
+    
 }
 
 #App {
@@ -41,9 +69,7 @@
     
 }
 
-.appTitle {
-    font-family: var(--uiFont);
-}
+
 
 .resultModal {
     border: 2px solid black;
@@ -62,6 +88,32 @@
     left: 50%;
     transform: translate(-50%, -50%);
     gap:5px;
+}
+
+.homeDiv {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: var(--popUpColor);
+}
+
+
+.signIn-btn {
+    padding: 10px;
+    max-width: 200px;
+    flex: 1 1 0%;
+    border-radius: 8px;
+    border: 0;
+    color: white;
+    font-weight: bold;
+    background-color: var(--btnsBg);
+    font-family: var(--uiFont);
+}
+
+
+
+a {
+    color: var(--btnsBg);
 }
 
 .signUpForm {
@@ -147,10 +199,11 @@
 
 .secret-form {
     padding: 1rem;
-    background-color: white;
+    
     border-radius: 8px;
     margin: 1rem;
     max-width: 400px;
+    background-color: var(--popUpColor);
 }
 
 .secret-ui {
@@ -163,6 +216,3 @@
     padding: 5px;
 }
 
-button {
-    padding: 3px;
-}

@@ -3,6 +3,8 @@ import instance from "../modules/axiosInstance";
 import Layout from "./layout";
 import { Link, useNavigate } from "react-router-dom";
 import ResultModal from "./resultModal";
+import Overlay from "./overlay";
+
 
 
 const SignInForm = () => {
@@ -10,26 +12,28 @@ const SignInForm = () => {
     const navigate = useNavigate()
 
     const [isFormProcessing, setIsFormProcessing] = useState(false)
-    const [isAuth, setisAuth] = useState(false)
+    
     const [errorMsg, setErrorMsg] = useState()
 
     
 
     useEffect( () => {
-        
+        isUserAuth()
     }, []) 
 
     const isUserAuth = async () => {
         try {
-            const response = await instance.post('/login/auth', {
+            // setIsFormProcessing(true)
+            const response = await instance.get('/login/check', {
                 withCredentials: true
             })
             if (response.data.isAuthenticated) {
-                console.log('user is authenticated, name:', response.data.user.name)
-                
+                // console.log('user is authenticated, name:', response.data.user.name)
+                // setIsFormProcessing(false)
                 navigate('/dashboard')
             } else {
-                console.log('user is not authenticated')
+                // setIsFormProcessing(false)
+                // console.log('user is not authenticated')
                 
             }
         }catch (err) {
@@ -44,20 +48,23 @@ const SignInForm = () => {
         const username = e.target.userName.value.toLowerCase()
         const userPassword = e.target.userPassword.value
 
-        console.log(username, userPassword)
+        // console.log(username, userPassword)
         try {
+            setIsFormProcessing(true)
             const response = await instance.post('/login', {
                 username: username,
                 userPassword: userPassword
             }, {
                 withCredentials: true
             })
-            console.log(response.data.cookie, 'cookie upon sign in')
+            // console.log(response.data.cookie, 'cookie upon sign in')
             
             if (response.data.isAuthenticated) {
+                setIsFormProcessing(false)
                 navigate('/dashboard')
                 
             } else {
+                setIsFormProcessing(false)
                 e.target.reset()
                 setErrorMsg(response.data.message)
             }
@@ -74,6 +81,7 @@ const SignInForm = () => {
             <button onClick={isUserAuth}>CHECK AUTH</button>
         {errorMsg ? <ResultModal result={errorMsg} closeModal={() => setErrorMsg()}></ResultModal> : null}
         <div className='homeDiv'>
+            {isFormProcessing && <Overlay loading={true}></Overlay>}
         <h1 className='appTitle'>Welcome to the Private Membership Club</h1>
         <form onSubmit={handleSubmit} style={{
             display:'flex',
@@ -95,17 +103,13 @@ const SignInForm = () => {
                 flex: '1',
                 alignItems: 'flex-end'
             }}>
-                <button type="submit" style={{
-                    padding: '10px',
-                    maxWidth: '200px',
-                    flex: '1'
-                }}>Log In</button>
+                <button className='signIn-btn' type="submit">Log In</button>
             </div>
 
         </form>
         <Link to='/signup' style={{
             textDecoration: 'none',
-            color: '#38bdf8'
+            
         }}>New user</Link>
         </div>
         </Layout>

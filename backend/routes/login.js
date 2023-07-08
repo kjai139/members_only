@@ -50,10 +50,10 @@ passport.deserializeUser( async function(id, done) {
 //passport authenticate returns done(err, user, info)
 router.post('/', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
-        debug(req.body)
-        debug('info', info)
-        debug('user', user)
-        debug('cookie', req.headers.cookie)
+        // debug(req.body)
+        // debug('info', info)
+        // debug('user', user)
+        // debug('cookie', req.headers.cookie)
         
         if (err) {
             return next(err)
@@ -91,8 +91,9 @@ router.post('/', (req, res, next) => {
     //if you don't pass the req res next to authenticate the localstrategy won't have the things to work with in the callback
 })
 
-router.post('/auth', (req, res) => {
-    // debug(req.headers.cookie)
+router.get('/check', (req, res) => {
+    debug(req.headers.cookie)
+    debug(req.isAuthenticated())
     // debug(req.session, 'the session')
     if (req.isAuthenticated()) {
         res.json({
@@ -111,8 +112,8 @@ router.post('/auth', (req, res) => {
 })
 
 router.get('/auth', (req, res) => {
-    // debug(req.headers.cookie)
-    // debug(req.session, 'the session')
+    debug('cookie from front', req.headers.cookie)
+    // debug(req.session, 'the session from front')
     if (req.isAuthenticated()) {
         res.json({
             isAuthenticated: true,

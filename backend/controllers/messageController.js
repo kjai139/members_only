@@ -5,7 +5,7 @@ const debug = require('debug')('members_only_app:messageController')
 
 
 exports.create_message_post = [
-    body('content').trim().isLength({min: 1}).escape(),
+    body('content').trim().isLength({min: 1}),
 
     async (req, res) => {
         const errors = validationResult(req)
@@ -73,7 +73,7 @@ exports.messages_delete_post = async (req, res, next) => {
         const result = await Message.findByIdAndDelete(`${id}`)
 
         res.json({
-            message: `Document #${id} deleted`
+            message: `Document #${id} was successfully deleted`
         })
     }catch(err) {
         res.json({

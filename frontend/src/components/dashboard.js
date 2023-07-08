@@ -8,11 +8,13 @@ import {format, parseISO} from 'date-fns'
 import Overlay from "./overlay";
 import SecretModal from "./secretModal";
 
+
 const Dashboard = () => {
 
 
     const [user, setUser] = useState()
     const [isUserMember, setIsUserMember] = useState(false)
+    const [isUserAdmin, setIsUserAdmin] = useState(false)
     const [isResultOut, setIsResultOut] = useState(false)
     const [formResult, setFormResult] = useState()
     const navigate = useNavigate()
@@ -27,6 +29,7 @@ const Dashboard = () => {
     const [isSecretOpen, setIsSecretOpen] = useState(false)
     
     const [deleteResult, setDeleteResult] = useState(false)
+   
 
     useEffect( () => {
         checkAuth()
@@ -40,24 +43,35 @@ const Dashboard = () => {
         }
     }, [needRefresh])
 
+    
+
     const checkAuth = async () => {
         try {
+            
             const response = await instance.get('/login/auth', {
                 withCredentials: true
             })
             if (response.data.isAuthenticated) {
                 setUser(response.data.user)
-                // setIsUserFilled(true)
                 
-                console.log('user', response.data.user)
+                
+                // console.log('user', response.data.user) 
                 if (response.data.user.membership_status === 'member') {
-                    console.log('user is member')
+                    // console.log('user is member')
                     setIsUserMember(true)
-                } else {
-                    console.log('membership status:', response.data.user.membership_status)
                 }
+                if (response.data.user.membership_status === 'admin'){
+                    // console.log('user is admin')
+                    setIsUserMember(true)
+                    setIsUserAdmin(true)
+
+                
+                } 
+                // else {
+                //     console.log('membership status:', response.data.user.membership_status)
+                // }
             } else {
-                console.log(response.data)
+                // console.log(response.data)
                 navigate('/')
             }
         } catch(err) {
@@ -71,7 +85,7 @@ const Dashboard = () => {
         try {
             setIsDeleting(true)
             const response = await instance.delete(`/message/delete/${id}`)
-            console.log(response.data.message)
+            // console.log(response.data.message)
             setIsDeleting(false)
             setDeleteResult(response.data.message)
         } catch(err) {
@@ -87,11 +101,11 @@ const Dashboard = () => {
             })
 
             // console.log(response.data.posts)
-            console.log(response.data.curpage)
-            console.log(response.data.posts)
+            // console.log(response.data.curpage)
+            // console.log(response.data.posts)
             setMessagePosts(response.data.posts)
             setTotalPages(response.data.totalPages)
-            console.log('total pages', response.data.totalPages)
+            // console.log('total pages', response.data.totalPages)
             setNeedRefresh(false)
         } catch (err) {
             console.log(err)
@@ -99,7 +113,7 @@ const Dashboard = () => {
     }
 
     const handleUpdate = (state) => {
-        console.log(state)
+        // console.log(state)
         setNeedRefresh(state)
     }
 
@@ -107,9 +121,12 @@ const Dashboard = () => {
 
     const logOut = async () => {
         try {
-            const response = await instance.post('/users/logout')
+            const response = await instance.delete('/users/logout', {
+                withCredentials:true
+            })
             setFormResult(response.data.message)
             setIsResultOut(true)
+            
 
         } catch (err) {
             console.log(err)
@@ -118,12 +135,12 @@ const Dashboard = () => {
     return (
         <Layout>
             {isDeleting && <Overlay></Overlay>}
-            {deleteResult && <ResultModal result={deleteResult} closeModal={() => setDeleteResult('')}></ResultModal>}
+            {deleteResult && <ResultModal result={deleteResult} closeModal={() => {setDeleteResult(''); setNeedRefresh(true)}}></ResultModal>}
         <div className="dashboard-cont">
         <div>
             <h1>Welcome, {user ? user.name.charAt(0).toUpperCase() + user.name.slice(1) : null}</h1>
-            <button onClick={logOut}>Log out</button>
-            {isResultOut? <ResultModal result={formResult} closeModal={() => navigate('/')}></ResultModal> : null}
+            <button onClick={() => logOut()}>Log out</button>
+            {isResultOut? <ResultModal result={formResult} closeModal={() => {navigate('/')}}></ResultModal> : null}
         </div>
         
         {isSecretOpen && <SecretModal closeModal={() => setIsSecretOpen(false)} setSuccess={()=> setIsUserMember(true)}></SecretModal>}
@@ -140,7 +157,7 @@ const Dashboard = () => {
                     <div className="post-container" key={node._id}>
                         <span className="postDate">{format(parseISO(node.createdAt), "EEEE, MMMM d, yyyy 'at' h:mm b")}
                         
-                        { user && user._id === node.poster._id ? <button className="delete-btn" onClick={() => deleteMsg(node._id)}>Delete message</button> : null}
+                        { (isUserAdmin || (user && user._id) === node.poster._id) ? <button className="delete-btn" onClick={() => deleteMsg(node._id)}>Delete message</button> : null}
                         
                         </span>
                         <div style={{

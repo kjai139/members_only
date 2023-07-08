@@ -1,11 +1,9 @@
 import React from 'react'
-import axios from 'axios'
 import { useState } from 'react'
 import Layout from './layout'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import Overlay from './overlay'
-import { PacmanLoader } from 'react-spinners'
 import ResultModal from './resultModal'
 import instance from '../modules/axiosInstance'
 
@@ -40,7 +38,7 @@ const SignUpForm = () => {
             setFormResult(response.data.message)
             setIsResultOut(true)
             
-            console.log(response.data)
+            // console.log(response.data)
         } catch(err) {
             setIsFormProcessing(false)
             console.log(err)

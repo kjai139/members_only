@@ -38,7 +38,7 @@ app.use(session({
     secret: 'keyboard-dog',
     resave: false,
     saveUninitialized: true,
-    name:'the session cookie'
+    name:'theCookie'
 }))
 
 

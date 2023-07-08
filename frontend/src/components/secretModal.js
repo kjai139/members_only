@@ -56,7 +56,7 @@ const SecretModal = ({closeModal, setSuccess}) => {
             }}>
             <div className="secret-ui">
             <label htmlFor="answer">Answer:</label>
-            <input type="text" name="answer" id="answer" min='1' autoComplete="off" style={{
+            <input type="text" name="answer" id="answer" minLength={1} required autoComplete="off" style={{
                 border:'2px solid black',
                 padding:'2px'
             }}></input>
