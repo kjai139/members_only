@@ -32,7 +32,9 @@ const main = async () => {
 main()
 app.use(cors({
     origin: 'https://membersonly-production-f9b3.up.railway.app',
-    credentials: true
+    credentials: true,
+    methods:['GET', 'POST', 'DELETE'],
+    allowedHeaders:['Content-Type', 'Authorization', 'X-Custom-Header']
 }))
 app.use(express.json())
 
