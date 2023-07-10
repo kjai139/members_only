@@ -2,7 +2,7 @@ import axios from 'axios'
 
 
 const instance = axios.create({
-    baseURL: 'https://gullible-rifle.railway.internal'
+    baseURL: 'https://gullible-rifle'
 })
 
 export default instance
