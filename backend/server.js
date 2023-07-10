@@ -9,6 +9,7 @@ const app = express()
 
 const passport = require('passport')
 const session = require('express-session')
+const MongoStore = require('connect-mongo')
 const cookieParser = require('cookie-parser')
 
 const debug = require('debug')('members_only_app:server')
@@ -40,7 +41,14 @@ app.use(session({
     secret: 'keyboard-dog',
     resave: false,
     saveUninitialized: true,
-    name:'theCookie'
+    name:'theCookie',
+    cookie: {
+        maxAge: 24 * 60 * 60 * 1000
+    },
+    store: MongoStore.create({
+        mongoUrl: mongoDB,
+        collectionName: 'mySessions'
+    })
 }))
 
 
