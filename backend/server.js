@@ -30,12 +30,13 @@ const main = async () => {
 
 
 main()
-app.use(cors({
-    origin: 'https://membersonly-production-f9b3.up.railway.app',
-    credentials: true,
-    methods:['GET', 'POST', 'DELETE'],
-    allowedHeaders:['Content-Type', 'Authorization', 'X-Custom-Header']
-}))
+// app.use(cors({
+//     origin: 'https://membersonly-production-f9b3.up.railway.app',
+//     credentials: true,
+//     methods:['GET', 'POST', 'DELETE'],
+//     allowedHeaders:['Content-Type', 'Authorization', 'X-Custom-Header']
+// }))
+app.use(cors())
 app.use(express.json())
 
 app.use(cookieParser())
