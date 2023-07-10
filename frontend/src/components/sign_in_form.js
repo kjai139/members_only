@@ -78,7 +78,7 @@ const SignInForm = () => {
     }
     return (
         <Layout>
-            <button onClick={isUserAuth}>CHECK AUTH</button>
+            {/* <button onClick={isUserAuth}>CHECK AUTH</button> */}
         {errorMsg ? <ResultModal result={errorMsg} closeModal={() => setErrorMsg()}></ResultModal> : null}
         <div className='homeDiv'>
             {isFormProcessing && <Overlay loading={true}></Overlay>}
