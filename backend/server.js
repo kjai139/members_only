@@ -30,7 +30,7 @@ const main = async () => {
 
 main()
 app.use(cors({
-    origin: 'https://railway.app/project/be8eb327-f4b0-4ff7-9bbf-cd04913075d6/service/9365b8d4-794c-4eb2-8d63-9248b8b6ba67',
+    origin: 'https://membersonly-production-f9b3.up.railway.app/',
     credentials: true
 }))
 app.use(express.json())
