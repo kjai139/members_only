@@ -34,7 +34,10 @@ app.use(cors({
     origin: 'https://bold-cactus-production.up.railway.app',
     credentials: true,
     methods:['GET', 'POST', 'DELETE'],
-    allowedHeaders:['Content-Type', 'Authorization', 'X-Custom-Header']
+    allowedHeaders:['Content-Type', 'Authorization', 'X-Custom-Header'],
+    exposedHeaders: [
+        'Access-Control-Allow-Origin'
+    ]
 }))
 
 app.use(express.json())
