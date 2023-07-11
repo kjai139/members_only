@@ -31,11 +31,11 @@ const main = async () => {
 
 
 main()
-app.use(cors({
-    origin: 'https://bold-cactus-production.up.railway.app',
-    credentials: true,
+// app.use(cors({
+//     origin: 'https://bold-cactus-production.up.railway.app',
+//     credentials: true,
     
-}))
+// }))
 
 
 app.use(express.json())
