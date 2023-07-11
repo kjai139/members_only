@@ -17,6 +17,7 @@ const debug = require('debug')('members_only_app:server')
 require('dotenv').config()
 const mongoose = require('mongoose')
 const mongoDB = process.env.MONGO_LOGIN
+const port = process.env.PORT || 4000
 
 const main = async () => {
     try {
@@ -71,6 +72,6 @@ app.use('/message', mesasgeRouter)
 
 
 
-app.listen(4000, '::', () => {
-    console.log('Server started on port 4000!')
+app.listen(port, '::', () => {
+    console.log(`Server started on port ${port}!`)
 })
