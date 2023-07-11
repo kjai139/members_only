@@ -70,6 +70,7 @@ const SignInForm = () => {
             }
             
         } catch(err) {
+            setIsFormProcessing(false)
             console.log(err)
 
         }
